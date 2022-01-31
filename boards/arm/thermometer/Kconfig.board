@@ -1,0 +1,5 @@
+# Thermometer board configuration
+
+config BOARD_THERMOMETER
+	bool "Thermometer board"
+	depends on SOC_NRF52811_QFAA
