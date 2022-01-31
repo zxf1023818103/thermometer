@@ -87,14 +87,14 @@ static void ess_notify(const struct device *dev)
 	
 	uint16_t humidity_value = humidity.val1 * 100;
 	humidity_value += humidity.val2 / 10000;
-
+	
 	int16_t temperature_value = temperature.val1 * 100;
 	temperature_value += temperature.val2 / 10000;
-
+	
 	printk("Temperature: %04"PRId16" Humidity: %04"PRIu16"\n", temperature_value, humidity_value);
 
-	bt_ess_set_humidity(humidity_value);
 	bt_ess_set_temperature(temperature_value);
+	bt_ess_set_humidity(humidity_value);
 }
 
 void main(void)
