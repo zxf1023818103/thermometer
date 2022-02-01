@@ -90,10 +90,9 @@ static void ess_notify(const struct device *dev)
 	
 	int16_t temperature_value = temperature.val1 * 100;
 	temperature_value += temperature.val2 / 10000;
-	
-	printk("Temperature: %04"PRId16" Humidity: %04"PRIu16"\n", temperature_value, humidity_value);
 
-	bt_ess_set_temperature_and_humidity(temperature_value, humidity_value);
+	int rc = bt_ess_set_temperature_and_humidity(temperature_value, humidity_value);
+	printk("Temperature: %04"PRId16" Humidity: %04"PRIu16" ret: %d\n", temperature_value, humidity_value, rc);
 }
 
 void main(void)
