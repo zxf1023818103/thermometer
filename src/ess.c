@@ -61,30 +61,31 @@ static int ess_init(void)
 	return 0;
 }
 
-int bt_ess_set_humidity(uint16_t value)
+int bt_ess_set_temperature_and_humidity(uint16_t temperature_value, int16_t humidity_value)
 {
 	int rc;
 
-	if (value > 10000U) {
-		return -EINVAL;
-	}
+	humidity[0] = humidity_value >> 8;
+	humidity[1] = humidity_value;
+	temperature[0] = temperature_value >> 8;
+	temperature[1] = temperature_value;
 
-	humidity[0] = value >> 8;
-	humidity[1] = value;
+	struct bt_gatt_notify_params params[] = {
+		{
+			.uuid = BT_UUID_ESS_HUMIDITY,
+			.attr = &ess.attrs[1],
+			.data = humidity,
+			.len = sizeof humidity,
+		},
+		{
+			.uuid = BT_UUID_ESS_TEMPERATURE,
+			.attr = &ess.attrs[2],
+			.data = temperature,
+			.len = sizeof temperature,
+		},
+	};
 
-	rc = bt_gatt_notify(NULL, &ess.attrs[1], humidity, sizeof(humidity));
-
-	return rc == -ENOTCONN ? 0 : rc;
-}
-
-int bt_ess_set_temperature(int16_t value)
-{
-	int rc;
-
-	temperature[0] = value >> 8;
-	temperature[1] = value;
-
-	rc = bt_gatt_notify(NULL, &ess.attrs[2], temperature, sizeof(temperature));
+	rc = bt_gatt_notify_multiple(NULL, sizeof params / sizeof params[0], params);
 
 	return rc == -ENOTCONN ? 0 : rc;
 }

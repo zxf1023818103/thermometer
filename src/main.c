@@ -93,8 +93,7 @@ static void ess_notify(const struct device *dev)
 	
 	printk("Temperature: %04"PRId16" Humidity: %04"PRIu16"\n", temperature_value, humidity_value);
 
-	bt_ess_set_temperature(temperature_value);
-	bt_ess_set_humidity(humidity_value);
+	bt_ess_set_temperature_and_humidity(temperature_value, humidity_value);
 }
 
 void main(void)

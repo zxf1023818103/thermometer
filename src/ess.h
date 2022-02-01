@@ -7,10 +7,7 @@ extern "C" {
 
 #include <stdint.h>
 
-int16_t bt_ess_get_temperature(void);
-uint16_t bt_ess_get_humidity(void);
-int bt_ess_set_humidity(uint16_t value);
-int bt_ess_set_temperature(int16_t value);
+int bt_ess_set_temperature_and_humidity(uint16_t temperature_value, int16_t humidity_value);
 
 #ifdef __cplusplus
 }
